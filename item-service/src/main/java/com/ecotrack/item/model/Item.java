@@ -1,5 +1,6 @@
 package com.ecotrack.item.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -29,6 +30,18 @@ public class Item {
 
     @Column(nullable = false)
     private Boolean available = true;
+
+    // 🔹 Image Fields
+    @Lob
+    @Column(name = "image_data", columnDefinition = "LONGBLOB")
+    @JsonIgnore
+    private byte[] imageData;
+
+    @Column(name = "image_type")
+    private String imageType;
+
+    @Column(name = "image_name")
+    private String imageName;
 
     @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;
@@ -116,6 +129,36 @@ public class Item {
 
     public LocalDateTime getUpdatedAt() {
         return updatedAt;
+    }
+
+    // 🔹 Image Getters and Setters
+
+    public byte[] getImageData() {
+        return imageData;
+    }
+
+    public void setImageData(byte[] imageData) {
+        this.imageData = imageData;
+    }
+
+    public String getImageType() {
+        return imageType;
+    }
+
+    public void setImageType(String imageType) {
+        this.imageType = imageType;
+    }
+
+    public String getImageName() {
+        return imageName;
+    }
+
+    public void setImageName(String imageName) {
+        this.imageName = imageName;
+    }
+
+    public boolean hasImage() {
+        return imageData != null && imageData.length > 0;
     }
 
     // 🔹 Lifecycle Methods
